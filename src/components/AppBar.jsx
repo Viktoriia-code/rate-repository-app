@@ -1,12 +1,17 @@
-import { View, StyleSheet, Pressable, Text } from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import Constants from 'expo-constants';
+import { Link } from 'react-router-native';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Constants.statusBarHeight + 20,
+    paddingTop: Constants.statusBarHeight,
     backgroundColor: theme.colors.bgSecondary,
     padding: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
   text: {
     fontWeight: theme.fontWeights.bold,
@@ -17,9 +22,12 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   return <View style={styles.container}>
-    <Pressable>
+    <Link to="/" style={styles.tab}>
       <Text style={styles.text}>Repositories</Text>
-    </Pressable>
+    </Link>
+    <Link to="/signin" style={styles.tab}>
+      <Text style={styles.text}>Sign in</Text>
+    </Link>
   </View>;
 };
 
