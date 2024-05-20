@@ -5,14 +5,14 @@ import theme from '../theme';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.white,
-    padding: 20,
+    padding: 15,
     display: 'flex',
     gap: 20,
   },
   tinyLogo: {
     width: 45,
     height: 45,
-    borderRadius: 5,
+    borderRadius: theme.roundness,
   },
   flexItemA: {
     display: 'flex',
@@ -21,37 +21,38 @@ const styles = StyleSheet.create({
   },
   flexItemB: {
     display: 'flex',
-    gap: 10,
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
   },
   title: {
     color: theme.colors.textPrimary,
     fontWeight: theme.fontWeights.bold,
     fontSize: theme.fontSizes.heading,
-    lineHeight: 18,
+    marginBottom: 5,
   },
   text: {
     color: theme.colors.textSecondary,
     fontSize: theme.fontSizes.subheading,
+    marginBottom: 10,
   },
   badge: {
     backgroundColor: theme.colors.primary,
-    padding: 5,
+    flexGrow: 0,
+    paddingVertical: 3,
+    paddingHorizontal: 6,
     alignSelf: 'flex-start',
     color: theme.colors.white,
-    borderRadius: 5,
+    borderRadius: theme.roundness,
     fontSize: theme.fontSizes.subheading,
   },
   flexDescA: {
     display: 'flex',
     flexDirection: 'row',
-    gap: 20,
     justifyContent: 'space-around'
   },
   flexDescB: {
     display: 'flex',
     alignItems: 'center',
-    gap: 5,
   }
 });
 

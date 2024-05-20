@@ -1,10 +1,12 @@
 import { View, StyleSheet, ScrollView } from 'react-native';
 import Text from './Text';
+import Constants from 'expo-constants';
 import { Link } from 'react-router-native';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: Constants.statusBarHeight + 20,
     backgroundColor: theme.colors.bgSecondary,
     padding: 20,
   },
