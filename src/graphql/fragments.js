@@ -13,3 +13,11 @@ export const CORE_REPOSITORY_FIELDS = gql`
     ownerAvatarUrl
   }
 `;
+
+export const USER_FRAGMENT = gql`
+  fragment userFragment on User {
+    id
+    username
+    createdAt
+  }
+`;
