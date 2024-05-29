@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View, Linking } from "react-native";
 import Text from './Text';
 import theme from '../theme';
 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const RepositoryItem = ({item}) => (
+const RepositoryItem = ({ item }) => (
   <View style={styles.container} testID="repositoryItem">
     <View style={styles.flexItemA}>
       <Image
@@ -87,6 +87,11 @@ const RepositoryItem = ({item}) => (
         <Text style={styles.text}>Rating</Text>
       </View>
     </View>
+    {item.url &&
+      <Pressable onPress={()=> Linking.openURL(item.url)}>
+        <Text fontWeight='bold' style={styles.btn}>Open in GitHub</Text>
+      </Pressable>
+    }
   </View>
 );
 

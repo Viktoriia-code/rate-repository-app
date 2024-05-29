@@ -6,10 +6,10 @@ export const CORE_REPOSITORY_FIELDS = gql`
     fullName
     description
     language
-    forksCount
     stargazersCount
-    ratingAverage
+    forksCount
     reviewCount
+    ratingAverage
     ownerAvatarUrl
   }
 `;
