@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
+import theme from '../theme';
 
 const initialValues = {
   username: '',
@@ -18,7 +19,7 @@ const validationSchema = yup.object().shape({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'white',
+    backgroundColor: theme.colors.white,
     padding: 15,
   },
   fieldContainer: {
