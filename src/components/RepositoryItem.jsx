@@ -1,6 +1,8 @@
-import { Image, StyleSheet, View, Linking } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import Text from './Text';
 import theme from '../theme';
+import Button from './Button';
+import * as Linking from 'expo-linking';
 
 const styles = StyleSheet.create({
   container: {
@@ -53,46 +55,46 @@ const styles = StyleSheet.create({
   flexDescB: {
     display: 'flex',
     alignItems: 'center',
-  }
+  },
 });
 
-const RepositoryItem = ({ item }) => (
-  <View style={styles.container} testID="repositoryItem">
-    <View style={styles.flexItemA}>
-      <Image
-        style={styles.tinyLogo}
-        source={{uri: item.ownerAvatarUrl}}
-      />
-      <View style={styles.flexItemB}>
-        <Text style={styles.title}>{item.fullName}</Text>
-        <Text style={styles.text}>{item.description}</Text>
-        <Text style={styles.badge}>{item.language}</Text>
+const RepositoryItem = ({ item }) => {
+  return (
+    <View style={styles.container} testID="repositoryItem">
+      <View style={styles.flexItemA}>
+        <Image
+          style={styles.tinyLogo}
+          source={{uri: item.ownerAvatarUrl}}
+        />
+        <View style={styles.flexItemB}>
+          <Text style={styles.title}>{item.fullName}</Text>
+          <Text style={styles.text}>{item.description}</Text>
+          <Text style={styles.badge}>{item.language}</Text>
+        </View>
       </View>
+      <View style={styles.flexDescA}>
+        <View style={styles.flexDescB}>
+          <Text style={styles.title}>{item.stargazersCount >= 1000 ? (item.stargazersCount/1000).toFixed(1) + 'k' : item.stargazersCount}</Text>
+          <Text style={styles.text}>Stars</Text>
+        </View>
+        <View style={styles.flexDescB}>
+          <Text style={styles.title}>{item.forksCount >= 1000 ? (item.forksCount/1000).toFixed(1) + 'k' : item.forksCount}</Text>
+          <Text style={styles.text}>Forks</Text>
+        </View>
+        <View style={styles.flexDescB}>
+          <Text style={styles.title}>{item.reviewCount}</Text>
+          <Text style={styles.text}>Reviews</Text>
+        </View>
+        <View style={styles.flexDescB}>
+          <Text style={styles.title}>{item.ratingAverage}</Text>
+          <Text style={styles.text}>Rating</Text>
+        </View>
+      </View>
+      {item.url &&
+        <Button onPress={()=> Linking.openURL(item.url)}>Open in GitHub</Button>
+      }
     </View>
-    <View style={styles.flexDescA}>
-      <View style={styles.flexDescB}>
-        <Text style={styles.title}>{item.stargazersCount >= 1000 ? (item.stargazersCount/1000).toFixed(1) + 'k' : item.stargazersCount}</Text>
-        <Text style={styles.text}>Stars</Text>
-      </View>
-      <View style={styles.flexDescB}>
-        <Text style={styles.title}>{item.forksCount >= 1000 ? (item.forksCount/1000).toFixed(1) + 'k' : item.forksCount}</Text>
-        <Text style={styles.text}>Forks</Text>
-      </View>
-      <View style={styles.flexDescB}>
-        <Text style={styles.title}>{item.reviewCount}</Text>
-        <Text style={styles.text}>Reviews</Text>
-      </View>
-      <View style={styles.flexDescB}>
-        <Text style={styles.title}>{item.ratingAverage}</Text>
-        <Text style={styles.text}>Rating</Text>
-      </View>
-    </View>
-    {item.url &&
-      <Pressable onPress={()=> Linking.openURL(item.url)}>
-        <Text fontWeight='bold' style={styles.btn}>Open in GitHub</Text>
-      </Pressable>
-    }
-  </View>
-);
+  );
+}
 
 export default RepositoryItem;

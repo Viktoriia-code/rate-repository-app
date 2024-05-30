@@ -1,24 +1,25 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepository from '../hooks/useRepository';
-import { useParams } from 'react-router-native';
-import { useQuery } from '@apollo/client';
-import { GET_REPOSITORY } from '../graphql/queries';
-import * as Linking from 'expo-linking';
 
 const SingleRepository = () => {
-  const { repository } = useRepository();
+  const { repository, loading, error } = useRepository();
 
-  console.log(repository);
+  if (loading) {
+    return <ActivityIndicator size="large" />;
+  }
+
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+
+  if (!repository) {
+    return <Text>Repository not found</Text>;
+  }
 
   return (
-    <FlatList
-      data={repository}
-      renderItem={({ item }) => <ReviewItem review={item} />}
-      keyExtractor={({ id }) => id}
-      //ListHeaderComponent={() => <RepositoryItem item={data} />}
-    />
+    <RepositoryItem item={repository} />
   );
 };
 
