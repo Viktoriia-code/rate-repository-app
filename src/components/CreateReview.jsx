@@ -7,6 +7,9 @@ import Button from './Button';
 import { View, StyleSheet } from 'react-native';
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
+import { useState, useEffect } from 'react';
+import Notify from './Notify';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -19,14 +22,14 @@ const styles = StyleSheet.create({
 
 const initialValues = {
   ownerName: '',
-  repository: '',
+  repositoryName: '',
   rating: '',
   review: ''
 };
 
 const validationSchema = yup.object().shape({
   ownerName: yup.string().required('Repository owner is required'),
-  repository: yup.string().required('Repository name is required'),
+  repositoryName: yup.string().required('Repository name is required'),
   rating: yup.number()
     .integer('Rating must be an integer')
     .min(0, 'Rating must be at least 0')
@@ -35,7 +38,7 @@ const validationSchema = yup.object().shape({
   review: yup.string().max(2000),
 });
 
-export const ReviewForm = ({ onSubmit }) => {
+export const ReviewForm = ({ onSubmit, errorMessage }) => {
 
   return (
     <Formik
@@ -53,11 +56,11 @@ export const ReviewForm = ({ onSubmit }) => {
           error={errors.ownerName}
         />
         <FormikTextInput 
-          name="repository" 
+          name="repositoryName" 
           placeholder="Repository name" 
-          value={values.repository}
-          onChangeText={handleChange('repository')}
-          error={errors.repository}
+          value={values.repositoryName}
+          onChangeText={handleChange('repositoryName')}
+          error={errors.repositoryName}
         />
         <FormikTextInput 
           name="rating" 
@@ -75,6 +78,7 @@ export const ReviewForm = ({ onSubmit }) => {
           onChangeText={handleChange('review')}
           error={errors.review}
         />
+        <Notify errorMessage={errorMessage} />
         <Button onPress={handleSubmit}>Create a review</Button>
       </View>
     )}
@@ -86,21 +90,22 @@ export const ReviewForm = ({ onSubmit }) => {
 const Review = () => {
   const [ createReview, result ] = useReview();
   const navigate = useNavigate();
-
+  const [errorMessage, setErrorMessage] = useState(null);
+  
   const onSubmit = async (values) => {
-    const { ownerName, repository, rating, review } = values;
+    const { ownerName, repositoryName, rating, review } = values;
+    const parsedRating = parseInt(rating, 10);
 
     try {
-      await createReview({ ownerName, repository, rating, review });
-      console.log(result);
-      //navigate(`/${repositoryId}`);
+      const data = await createReview({ ownerName, repositoryName, rating: parsedRating, text: review });
+      navigate(`/${data.data.createReview.repositoryId}`);
     } catch (e) {
-      console.log(e);
+      setErrorMessage(e.message);
     }
   }
 
   return (
-    <ReviewForm onSubmit={onSubmit} />
+    <ReviewForm onSubmit={onSubmit} errorMessage={errorMessage} />
   );
 };
  

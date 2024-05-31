@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Text from './Text';
 import theme from '../theme';
+import { format } from "date-fns";
 
 const styles = StyleSheet.create({
   container: {
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
   },
 });
 
+
 const ReviewItem = ({ review }) => {
   return (
     <View style={styles.container}>
@@ -39,7 +41,7 @@ const ReviewItem = ({ review }) => {
         </View>
         <View style={styles.infoContainer}>
           <Text fontWeight="bold" fontSize="subheading">{review.user.username}</Text>
-          <Text color="textSecondary">{review.createdAt.slice(0,10)}</Text>
+          <Text color="textSecondary">{format(new Date(review.createdAt), 'dd.MM.yyyy')}</Text>
           <Text>{review.text}</Text>
         </View>
       </View>
