@@ -18,6 +18,5 @@ export const USER_FRAGMENT = gql`
   fragment userFragment on User {
     id
     username
-    createdAt
   }
 `;

@@ -20,3 +20,12 @@ export const CREATE_REVIEW = gql`
     }
   }
 `;
+
+export const CREATE_USER = gql`
+  mutation Mutation($user: CreateUserInput) {
+    createUser(user: $user) {
+      ...userFragment
+    }
+  }
+  ${USER_FRAGMENT}
+`;

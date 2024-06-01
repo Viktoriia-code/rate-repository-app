@@ -7,7 +7,7 @@ import Button from './Button';
 import { View, StyleSheet } from 'react-native';
 import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Notify from './Notify';
 
 
@@ -53,14 +53,14 @@ export const ReviewForm = ({ onSubmit, errorMessage }) => {
           placeholder="Repository owner name"
           value={values.ownerName}
           onChangeText={handleChange('ownerName')}
-          error={errors.ownerName}
+          error={touched.ownerName && errors.ownerName}
         />
         <FormikTextInput 
           name="repositoryName" 
           placeholder="Repository name" 
           value={values.repositoryName}
           onChangeText={handleChange('repositoryName')}
-          error={errors.repositoryName}
+          error={touched.repositoryName && errors.repositoryName}
         />
         <FormikTextInput 
           name="rating" 
@@ -68,7 +68,7 @@ export const ReviewForm = ({ onSubmit, errorMessage }) => {
           keyboardType="numeric"
           value={values.rating}
           onChangeText={handleChange('rating')}
-          error={errors.rating}
+          error={touched.rating && errors.rating}
         />
         <FormikTextInput 
           name="review" 
@@ -76,15 +76,14 @@ export const ReviewForm = ({ onSubmit, errorMessage }) => {
           multiline
           value={values.review}
           onChangeText={handleChange('review')}
-          error={errors.review}
+          error={touched.review && errors.review}
         />
         <Notify errorMessage={errorMessage} />
         <Button onPress={handleSubmit}>Create a review</Button>
       </View>
     )}
-
-
-    </Formik>)
+    </Formik>
+  )
 };
 
 const Review = () => {
