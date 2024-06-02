@@ -9,6 +9,7 @@ import FormikTextInput from './FormikTextInput';
 import theme from '../theme';
 import { useState } from 'react';
 import Notify from './Notify';
+import { useFormik } from 'formik';
 
 
 const styles = StyleSheet.create({
@@ -39,52 +40,47 @@ const validationSchema = yup.object().shape({
 });
 
 export const ReviewForm = ({ onSubmit, errorMessage }) => {
-
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={onSubmit}
-    >
-      {({ handleSubmit, handleChange, values, errors }) => (
       <View style={styles.container}>
         <FormikTextInput 
           name="ownerName"
           placeholder="Repository owner name"
-          value={values.ownerName}
-          onChangeText={handleChange('ownerName')}
-          error={touched.ownerName && errors.ownerName}
+          value={formik.values.ownerName}
+          onChangeText={formik.handleChange('ownerName')}
+          error={formik.touched.ownerName && formik.errors.ownerName}
         />
         <FormikTextInput 
           name="repositoryName" 
           placeholder="Repository name" 
-          value={values.repositoryName}
-          onChangeText={handleChange('repositoryName')}
-          error={touched.repositoryName && errors.repositoryName}
+          value={formik.values.repositoryName}
+          onChangeText={formik.handleChange('repositoryName')}
+          error={formik.touched.repositoryName && formik.errors.repositoryName}
         />
         <FormikTextInput 
           name="rating" 
           placeholder="Rating between 0 and 100" 
           keyboardType="numeric"
-          value={values.rating}
-          onChangeText={handleChange('rating')}
-          error={touched.rating && errors.rating}
+          value={formik.values.rating}
+          onChangeText={formik.handleChange('rating')}
+          error={formik.touched.rating && formik.errors.rating}
         />
         <FormikTextInput 
           name="review" 
           placeholder="Review" 
           multiline
-          value={values.review}
-          onChangeText={handleChange('review')}
-          error={touched.review && errors.review}
+          value={formik.values.review}
+          onChangeText={formik.handleChange('review')}
+          error={formik.touched.review && formik.errors.review}
         />
         <Notify errorMessage={errorMessage} />
-        <Button onPress={handleSubmit}>Create a review</Button>
+        <Button onPress={formik.handleSubmit}>Create a review</Button>
       </View>
     )}
-    </Formik>
-  )
-};
 
 const Review = () => {
   const [ createReview, result ] = useReview();
