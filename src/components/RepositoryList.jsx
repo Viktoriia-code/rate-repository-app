@@ -1,14 +1,23 @@
-import { FlatList, Pressable } from 'react-native';
+import { FlatList, Pressable, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 import useRepositories from '../hooks/useRepositories';
 import { useNavigate } from 'react-router-native';
 import { useState } from 'react';
 import { Picker } from '@react-native-picker/picker';
 import ItemSeparator from './ItemSeparator';
+import theme from '../theme';
 
+const styles = StyleSheet.create({
+  placeholder: {
+    color: theme.colors.textPlaceholder,
+  },
+  itemStyle: {
+    color: theme.colors.textPrimary,
+  }
+});
 
 export const RepositoryList = () => {
-  const [sortMethod, setSortMethod] = useState();
+  const [sortMethod, setSortMethod] = useState('latest');
   const [orderBy, setOrderBy] = useState("CREATED_AT");
   const [orderDirection, setOrderDir] = useState("DESC");
   const { repositories } = useRepositories(orderBy, orderDirection);
@@ -73,9 +82,10 @@ const Filter = ({ onSortMethod, sortMethod }) => {
       selectedValue={sortMethod}
       onValueChange={onSortMethod}
     >
-      <Picker.Item label="Latest repositories" value="latest" />
-      <Picker.Item label="Highest rated repositories" value="highest" />
-      <Picker.Item label="Lowest rated repositories" value="lowest" />
+      <Picker.Item label="Select an item..." value="" enabled={false} style={styles.placeholder} />
+      <Picker.Item label="Latest repositories" value="latest" style={styles.itemStyle} />
+      <Picker.Item label="Highest rated repositories" value="highest" style={styles.itemStyle} />
+      <Picker.Item label="Lowest rated repositories" value="lowest" style={styles.itemStyle} />
     </Picker>
   );
 };
