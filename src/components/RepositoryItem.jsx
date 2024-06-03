@@ -1,8 +1,9 @@
-import { Image, StyleSheet, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import Text from './Text';
 import theme from '../theme';
 import Button from './Button';
 import * as Linking from 'expo-linking';
+import { useNavigate } from 'react-router-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -59,8 +60,10 @@ const styles = StyleSheet.create({
 });
 
 const RepositoryItem = ({ item }) => {
+  const navigate = useNavigate();
+  
   return (
-    <View style={styles.container} testID="repositoryItem">
+    <Pressable onPress={() => navigate(`/${item.id}`)} style={styles.container} testID="repositoryItem">
       <View style={styles.flexItemA}>
         <Image
           style={styles.tinyLogo}
@@ -93,7 +96,7 @@ const RepositoryItem = ({ item }) => {
       {item.url &&
         <Button onPress={()=> Linking.openURL(item.url)}>Open in GitHub</Button>
       }
-    </View>
+    </Pressable>
   );
 }
 
