@@ -6,6 +6,8 @@ import * as yup from 'yup';
 import useSignIn from '../hooks/useSignIn';
 import { useNavigate } from 'react-router-native';
 import theme from '../theme';
+import Notify from './Notify';
+import { useState } from 'react';
 
 const initialValues = {
   username: '',
@@ -21,13 +23,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.white,
     padding: 15,
-  },
-  fieldContainer: {
-    marginBottom: 15,
-  },
+    display: 'flex',
+    gap: 15,
+  }
 });
 
-export const SignInForm = ({ onSubmit }) => {
+export const SignInForm = ({ onSubmit, errorMessage }) => {
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -35,7 +36,7 @@ export const SignInForm = ({ onSubmit }) => {
   });
   return (
     <View style={styles.container}>
-      <View style={styles.fieldContainer}>
+      <View>
         <FormikTextInput 
           name="username" 
           placeholder="Username"
@@ -44,7 +45,7 @@ export const SignInForm = ({ onSubmit }) => {
           error={formik.touched.username && formik.errors.username}
         />
       </View>
-      <View style={styles.fieldContainer}>
+      <View>
         <FormikTextInput
           name="password"
           placeholder="Password"
@@ -54,6 +55,7 @@ export const SignInForm = ({ onSubmit }) => {
           secureTextEntry
         />
       </View>
+      <Notify errorMessage={errorMessage} />
       <Button 
         onPress={(signin) => {
           !(formik.errors.username || formik.errors.password) &&
@@ -67,6 +69,7 @@ export const SignInForm = ({ onSubmit }) => {
 export const SignIn = () => {
   const navigate = useNavigate();
   const [signIn] = useSignIn();
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const onSubmit = async (values) => {
     const { username, password } = values;
@@ -74,12 +77,12 @@ export const SignIn = () => {
       await signIn({ username, password });
       navigate('/', { replace: true });
     } catch (e) {
-      console.log('error: ', e);
+      setErrorMessage(e.message);
     }
   };
 
   return (
-    <SignInForm onSubmit={onSubmit} />
+    <SignInForm onSubmit={onSubmit} errorMessage={errorMessage} />
   );
 };
 
