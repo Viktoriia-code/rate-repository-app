@@ -1,7 +1,9 @@
 import { FlatList, StyleSheet, View } from "react-native";
-import useReviews from "../hooks/useReviews";
 import Text from "./Text";
 import theme from "../theme";
+import useMe from "../hooks/useMe";
+import ReviewItem from './ReviewItem';
+import ItemSeparator from "./ItemSeparator";
 
 const styles = StyleSheet.create({
   container:  {
@@ -11,11 +13,9 @@ const styles = StyleSheet.create({
 });
 
 const MyReviews = () => {
-  const { reviews, error, loading } = useReviews();
-  console.log(reviews);
-
-  const reviewNodes = reviews ? reviews : [];
-
+  const { me, loading, error } = useMe(true);
+  
+  const reviewNodes = me?.reviews?.edges?.map(edge => edge.node);
 
   if(loading) {
     return (
@@ -41,15 +41,13 @@ const MyReviews = () => {
     );
   }
   return(
-    <View style={styles.container}>
-      <FlatList
-        style={styles.container}
-        data={reviewNodes}
-        keyExtractor={({ id }) => id}
-        onEndReachedThreshold={0.5}
-        renderItem={({ item }) => <ReviewListItem item={item} onDelete={onDelete} isMyItem/>}
-      />
-    </View>
+    <FlatList
+      data={reviewNodes}
+      keyExtractor={({ id }) => id}
+      onEndReachedThreshold={0.5}
+      renderItem={({ item }) => <ReviewItem review={item} isMyItem />}
+      ItemSeparatorComponent={ItemSeparator}
+    />
   );
 };
 

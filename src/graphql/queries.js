@@ -40,6 +40,30 @@ export const ME = gql`
   }
 `;
 
+export const GET_CURRENT_USER = gql`
+  query getCurrentUser($includeReviews: Boolean = false) {
+    me {
+      id
+      username
+      reviews @include(if: $includeReviews) {
+        edges {
+          node {
+            id
+            createdAt
+            text
+            rating
+            repository {
+              fullName
+              ratingAverage
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
 export const GET_REVIEWS = gql`
   query reviews ($repositoryId: ID!) {
     repository(id: $repositoryId) {
