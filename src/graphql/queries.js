@@ -56,6 +56,7 @@ export const GET_CURRENT_USER = gql`
               fullName
               ratingAverage
               url
+              id
             }
           }
         }

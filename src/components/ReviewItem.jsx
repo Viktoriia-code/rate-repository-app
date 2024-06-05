@@ -2,12 +2,16 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Text from './Text';
 import theme from '../theme';
+import Button from './Button';
 import { format } from "date-fns";
+import { useNavigate } from 'react-router-dom';
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.white,
     padding: 15,
+    display: 'flex',
+    gap: 15,
   },
   reviewContainer: {
     flexDirection: 'row',
@@ -29,10 +33,36 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     alignItems: 'flex-start'
   },
+  btnContainer: {
+    flexDirection: 'row',
+    gap: 15,
+  },
+  deleteButton: {
+    backgroundColor: theme.colors.error,
+  },
+  customButton: {
+    flex: 1
+  }
 });
 
 
-const ReviewItem = ({ review, isMyItem }) => {
+const ReviewItem = ({ review, isMyItem, onDelete }) => {
+  const navigate = useNavigate();
+  const handlePress = () => {
+    navigate(`/${review.repository.id}`);
+  };
+
+  const renderButtons = () => {
+    if (isMyItem) {
+      return (
+        <View style={styles.btnContainer}>
+          <Button style={styles.customButton} onPress={handlePress}>View repository</Button>
+          <Button style={[styles.deleteButton, styles.customButton]} onPress={()=> onDelete(review.id)}>Delete review</Button>  
+        </View>
+      );
+    }
+  };
+  
   return (
     <View style={styles.container}>
       <View style={styles.reviewContainer}>
@@ -49,6 +79,7 @@ const ReviewItem = ({ review, isMyItem }) => {
           <Text>{review.text}</Text>
         </View>
       </View>
+      {renderButtons()}
     </View>
   );
 };
