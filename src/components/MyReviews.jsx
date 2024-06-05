@@ -62,8 +62,8 @@ const MyReviews = () => {
               const { deleteReview: success } = await deleteReview(id);
         
               if (success) {
-                client.cache.evict({ id: `Review:${id}` }); // clean cache
-                client.cache.gc(); // clean any unused data
+                client.cache.evict({ id: `Review:${id}` });
+                client.cache.gc();
                 await refetch();
               } else {
                 console.error("Failed to delete review");
