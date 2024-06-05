@@ -24,7 +24,7 @@ const RepositoryListHeader = ({
   onSortMethod, 
   sortMethod, 
   onSearchKeyword, 
-  searchKeyword,
+  searchKeyword
   }) => {
 
   return (
@@ -80,6 +80,8 @@ class RepositoryListContainer extends React.Component {
         ListHeaderComponent={this.renderHeader}
         renderItem={this.renderItem}
         ItemSeparatorComponent={this.itemSeparator}
+        onEndReached={this.props.onEndReached}
+        onEndReachedThreshold={0.5}
       />
     );
   }

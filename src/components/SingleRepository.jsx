@@ -18,7 +18,7 @@ const RepositoryInfo = ({ repository }) => {
 const SingleRepository = () => {
   const { repository, loading, error } = useRepository();
 
-  const { reviews } = useReviews();
+  const { reviews, fetchMore } = useReviews(first = 3);
   const reviewNodes = reviews ? reviews.edges.map((edge) => edge.node) : [];
 
   if (loading) {
@@ -33,6 +33,11 @@ const SingleRepository = () => {
     return <Text>Repository not found</Text>;
   }
 
+  const onEndReached = () => {
+    //console.log('You have reached the end of the list');
+    fetchMore();
+  };
+
   return (
     <FlatList
       data={reviewNodes}
@@ -40,6 +45,8 @@ const SingleRepository = () => {
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryInfo repository={repository} />}
       ItemSeparatorComponent={ItemSeparator}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
     />
   );
 };

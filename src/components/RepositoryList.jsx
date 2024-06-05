@@ -10,10 +10,7 @@ export const RepositoryList = () => {
   const [orderDirection, setOrderDir] = useState("DESC");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [debouncedKeyword] = useDebounce(searchKeyword, 500);
-  const { repositories } = useRepositories(orderBy, orderDirection, debouncedKeyword);
-
-  //console.log('orderBy:' + orderBy);
-  //console.log('orderDirection:' + orderDirection);
+  const { repositories, fetchMore } = useRepositories(first = 8, orderBy, orderDirection, debouncedKeyword);
 
   const onSortMethod = (sortValue) => {
     switch( sortValue ) {
@@ -41,13 +38,19 @@ export const RepositoryList = () => {
     ? repositories.edges.map((edge) => edge.node)
     : [];
   
+  const onEndReached = () => {
+    //console.log('You have reached the end of the list');
+    fetchMore();
+  };
+  
   return (
     <RepositoryListContainer 
       repositories={repositories} 
       onSortMethod={onSortMethod}
       sortMethod={sortMethod}
       onSearchKeyword={setSearchKeyword}
-      searchKeyword={searchKeyword} />
+      searchKeyword={searchKeyword}
+      onEndReached={onEndReached} />
   );
 };
 

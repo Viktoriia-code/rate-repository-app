@@ -18,7 +18,6 @@ const useCreateUser = () => {
       }
       
       const userId = response.data.createUser.id;
-      // console.log('response:', userId);
 
       return { userId, result: response };
     } catch (e) {
